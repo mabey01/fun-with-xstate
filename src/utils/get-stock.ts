@@ -1,9 +1,16 @@
+import { stockFixture } from "../fixtures/stock";
 import { Stock } from "../types";
 import { getQuoteData } from "./get-quote-data";
 import { getSimpleChartData } from "./get-simple-chart-data";
 import { getTimeSeriesData } from "./get-time-series-data";
 
 export async function getStockData(symbol: string): Promise<Stock> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(stockFixture);
+    }, 2_000);
+  });
+
   const [quoteData, timeSeriesData] = await Promise.all([
     getQuoteData(symbol),
     getTimeSeriesData(symbol),

@@ -1,11 +1,33 @@
 import { faker } from "@faker-js/faker";
+import { createMachine } from "xstate";
+import { useMachine } from "@xstate/react";
 import { useMemo, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { MainNavigation } from "./components/main-navigation";
 import { Account } from "./types";
 
+const navigationMachine = createMachine({
+  tsTypes: {} as import("./App.typegen").Typegen0,
+  id: "navigation",
+  initial: "open",
+  states: {
+    open: {
+      on: {
+        TOGGLE: "closed",
+      },
+    },
+    closed: {
+      on: {
+        TOGGLE: "open",
+      },
+    },
+  },
+});
+
 function App() {
-  const [isNavigationOpen, setIsNavigationOpen] = useState(true);
+  const [machine, send] = useMachine(navigationMachine, {
+    devTools: true,
+  });
 
   const account: Account = useMemo(() => {
     const firstName = faker.name.firstName();
@@ -18,6 +40,8 @@ function App() {
     };
   }, []);
 
+  const isNavigationOpen = machine.matches("open");
+
   return (
     <div className="h-screen bg-white p-4">
       <nav
@@ -28,7 +52,7 @@ function App() {
       >
         <button
           className="absolute top-12 -right-8 z-10 bg-gray-200 px-1 rounded-lg"
-          onClick={() => setIsNavigationOpen((isOpen) => !isOpen)}
+          onClick={() => send({ type: "TOGGLE" })}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

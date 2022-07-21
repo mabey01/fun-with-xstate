@@ -10,11 +10,14 @@
   "dependencies": {
     "@tanstack/react-query": "^4.0.5",
     "@tanstack/react-query-devtools": "^4.0.5",
+    "@xstate/inspect": "^0.7.0",
+    "@xstate/react": "^3.0.0",
     "d3": "^7.6.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.3.0",
-    "react-use": "^17.4.0"
+    "react-use": "^17.4.0",
+    "xstate": "^4.32.1"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.3.0",
